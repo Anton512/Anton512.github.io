@@ -1,0 +1,39 @@
+body{
+    font-family: 'Arial';
+}
+
+label{
+    display: block;
+    margin: 3px 65px;
+}
+
+h4{
+    font-weight: 200;
+    margin-left: 23%;
+}
+
+input{
+    float: left;
+    outline: none;
+    border: none;
+    background: #CDE2F5;
+}
+
+
+div{
+    margin-left: 20%;
+}
+
+p{
+    margin: 15px;
+    font-size: 1em;
+}
+
+button{
+    margin: 50px 0 0 23%;
+    border: 2px solid black;
+    background: #CDE2F5;
+    height: 40px;
+    font-size: 1em;
+    width: 250px;
+}
