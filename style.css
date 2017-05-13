@@ -30,7 +30,9 @@ body{
 #Dbutton{
     position: absolute;
     left: 35.5%;
-    margin-top: 1%; 
+    margin-top: 1%;
+    outline: none;
+
 }
 
 .button{
@@ -40,6 +42,7 @@ body{
     color: black;
     font-family: "Arial";
     border: none;
+    outline: none;
 
 }
 
