@@ -1,83 +1,124 @@
-var body = document.body;  
-var input = document.createElement('input');
-var label = document.createElement('label');
-input.setAttribute('type', 'checkbox');
-label.appendChild(input);
 
+var start_stop = document.getElementById('start');
+var reset = document.getElementById('reset');
+var outResult = document.getElementById('outResult');
+var split = document.getElementById('split');
+var outTime = document.getElementById('outTime');
 
-                    
-var test = {
-    div: document.createElement('div'),
-    button: document.createElement('button'),
-    header: document.createElement('h4'),
-    question: {
-        question_1: {
-            answer_1: label.cloneNode(true),
-            answer_2: label.cloneNode(true),
-            answer_3: label.cloneNode(true)
-        },
-        
-        question_2: {
-            answer_1: label.cloneNode(true),
-            answer_2: label.cloneNode(true),
-            answer_3: label.cloneNode(true)
-        },
-        
-        question_3: {
-            answer_1: label.cloneNode(true),
-            answer_2: label.cloneNode(true),
-            answer_3: label.cloneNode(true)
-        }
-        
-        
-    },
+//----------------------------------------------------------------------------------------------------------
+
+function Timer(){
+    var s = 0;
+    var ml = 0;
+    var h = 0;
+    var m = 0;
+    var numberResult = 1;
+    var timer;
+    var visible = false;
     
-    innerQuestion: function(){
-                //        ANSWER_1
-        this.question.question_1.answer_1.innerHTML += 'Ответ №1';
-        this.question.question_1.answer_2.innerHTML += 'Ответ №2';
-        this.question.question_1.answer_3.innerHTML += 'Ответ №3';
-                //        ANSWER_2
-        this.question.question_2.answer_1.innerHTML += 'Ответ №1';
-        this.question.question_2.answer_2.innerHTML += 'Ответ №2';
-        this.question.question_2.answer_3.innerHTML += 'Ответ №3';
-                //        ANSWER_3
-        this.question.question_3.answer_1.innerHTML += 'Ответ №1';
-        this.question.question_3.answer_2.innerHTML += 'Ответ №2';
-        this.question.question_3.answer_3.innerHTML += 'Ответ №3';
-                //        QUESTION
-        this.arrP[0].innerHTML = 'Вопрос №1';
-        this.arrP[1].innerHTML = 'Вопрос №2';
-        this.arrP[2].innerHTML = 'Вопрос №3';
-                //        BUTTON
-        this.button.innerHTML = 'Проверить ответы';
-                //        HEADER
-        this.header.innerHTML = 'Тест по программированию'
-        
-    },
-        
-    
-    button: document.createElement('button'),
-    p: document.createElement('p'),
-    arrP: [],
-    outTest: function(){
-        body.appendChild(this.div);
-        this.div.appendChild(this.header);
-        for(var i = 1; i <= Object.keys(this.question).length; i++){
-                this.arrP.push(this.p.cloneNode(true));
-                this.div.appendChild(this.arrP[i - 1]);
-            for(var key in test.question['question' + '_' + i + '']){
-                this.div.appendChild(this.question['question' + '_' + i + ''][key]);  
-            }
-        }
-        this.div.appendChild(this.button);
-        this.innerQuestion();
+    function updateButton(button, Nfunc, Sfunc){
+            button.removeEventListener('click', Sfunc);
+            button.addEventListener('click', Nfunc);
     }
-
+    
+    function startWatch(){
+        ml++;
+        console.log('use');
+        if(ml == 100){
+            s++;
+            ml = 0;
+        }else if(s == 60){
+            m++;
+            s = 0;
+        }else if(m == 60){
+            h++;
+        }
+        update();
+    }
+    
+    function addToResult(info){
+        outResult.innerHTML += numberResult + info + ' - ' + outTime.innerHTML + '<br>';
+        numberResult++;
+    }
+    
+    
+    this.split = function(){
+        addToResult(' Split') ;
+    }
+    
+    function update(){
+        outTime.innerHTML =  formatTime(); 
+    }
+    
+    function formatTime(){
+       var  seconds = s.toString() ;
+        var milliseconds = ml.toString() ;
+        var hours = h.toString() ;
+        var minutes = m.toString() ;
+            if(seconds.length < 2){
+                seconds = '0' + seconds;
+            }
+            
+            if(minutes.length < 2){
+                minutes = '0' + minutes;
+            }if(milliseconds.length < 2){
+                milliseconds = '0' + milliseconds;
+            }
+        return hours + ':' + minutes + ':' + seconds + '.' + milliseconds;
+        
+    }
+    
+    this.stopWatch = function(){
+        clearInterval(timer);
+        if(visible){
+            addToResult(' Stop');
+        }
+        updateButton(start_stop, watch.start);
+        visible = false;
+        start_stop.innerHTML = 'Start';
+        formatTime();
+    }
+    this.start = function(){
+        if(!visible){
+                visible = true;
+                timer = setInterval(startWatch, 10);
+                updateButton(start_stop, watch.stopWatch, watch.start);
+                start_stop.innerHTML = 'Stop';
+                console.log(visible);
+        }
+    }
+    
+    this.reset = function(){
+        clearInterval(timer);
+        visible = false;
+        updateButton(start_stop, watch.start, watch.stopWatch);
+        start_stop.innerHTML = 'Start';
+        s = 0;
+        ml = 0;
+        h = 0;
+        m = 0;
+        numberResult = 1;
+        outResult.innerHTML = '';
+        update();
+    }
 };
-   
+
+var watch = new Timer;
 
 
-test.outTest();
+//----------------------------------------------------------------------------------------------------------
+var switchColor = {
+    colorChoose: function(color){
+        document.body.style.background = color;
+    },
+    
+    button_1: document.getElementById('color1').addEventListener('click', function(){
+        switchColor.colorChoose('silver');
+    })
+}
 
 
+
+start_stop.addEventListener('click', watch.start);
+reset.addEventListener('click', watch.reset);
+split.addEventListener('click', watch.split);
