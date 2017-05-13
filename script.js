@@ -122,3 +122,4 @@ var switchColor = {
 start_stop.addEventListener('click', watch.start);
 reset.addEventListener('click', watch.reset);
 split.addEventListener('click', watch.split);
+ 
