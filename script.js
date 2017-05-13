@@ -117,7 +117,7 @@ var switchColor = {
     }),
     
     button_2: document.getElementById('color2').addEventListener('click', function(){
-        switchColor.colorChoose('gold');
+        switchColor.colorChoose('bisque');
     }),
     
     button_3: document.getElementById('color3').addEventListener('click', function(){
