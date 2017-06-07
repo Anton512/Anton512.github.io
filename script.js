@@ -1,137 +1,55 @@
+(function(){var tabsText = {
+  tab_1: '<div class="tab" data-tabs="1">Сайт рыбатекст поможет дизайнеру, верстальщику, вебмастеру сгенерировать несколько абзацев более менее осмысленного текста рыбы на русском языке, а начинающему оратору отточить навык публичных выступлений в домашних условиях.</div>',
 
-var start_stop = document.getElementById('start');
-var reset = document.getElementById('reset');
-var outResult = document.getElementById('outResult');
-var split = document.getElementById('split');
-var outTime = document.getElementById('outTime');
+  tab_2: '<div class="tab" data-tabs="2">При создании генератора мы использовали небезизвестный универсальный код речей.В отличии от lorem ipsum, текст рыба на русском языке наполнит любой макет непонятным смыслом и придаст неповторимый колорит советских времен.</div>',
 
-//----------------------------------------------------------------------------------------------------------
-
-function Timer(){
-    var s = 0;
-    var ml = 0;
-    var h = 0;
-    var m = 0;
-    var numberResult = 1;
-    var timer;
-    var visible = false;
-    
-    function updateButton(button, Nfunc, Sfunc){
-            button.removeEventListener('click', Sfunc);
-            button.addEventListener('click', Nfunc);
-    }
-    
-    function startWatch(){
-        ml++;
-        console.log('use');
-        if(ml == 100){
-            s++;
-            ml = 0;
-        }else if(s == 60){
-            m++;
-            s = 0;
-        }else if(m == 60){
-            h++;
-        }
-        update();
-    }
-    
-    function addToResult(info){
-        outResult.innerHTML += numberResult + info + ' - ' + outTime.innerHTML + '<br>';
-        numberResult++;
-    }
-    
-    
-    this.split = function(){
-        addToResult(' Split') ;
-    }
-    
-    function update(){
-        outTime.innerHTML =  formatTime(); 
-    }
-    
-    function formatTime(){
-       var  seconds = s.toString() ;
-        var milliseconds = ml.toString() ;
-        var hours = h.toString() ;
-        var minutes = m.toString() ;
-            if(seconds.length < 2){
-                seconds = '0' + seconds;
-            }
-            
-            if(minutes.length < 2){
-                minutes = '0' + minutes;
-            }if(milliseconds.length < 2){
-                milliseconds = '0' + milliseconds;
-            }
-        return hours + ':' + minutes + ':' + seconds + '.' + milliseconds;
-        
-    }
-    
-    this.stopWatch = function(){
-        clearInterval(timer);
-        if(visible){
-            addToResult(' Stop');
-        }
-        updateButton(start_stop, watch.start);
-        visible = false;
-        start_stop.innerHTML = 'Start';
-        formatTime();
-    }
-    this.start = function(){
-        if(!visible){
-                visible = true;
-                timer = setInterval(startWatch, 10);
-                updateButton(start_stop, watch.stopWatch, watch.start);
-                start_stop.innerHTML = 'Stop';
-                console.log(visible);
-        }
-    }
-    
-    this.reset = function(){
-        clearInterval(timer);
-        visible = false;
-        updateButton(start_stop, watch.start, watch.stopWatch);
-        start_stop.innerHTML = 'Start';
-        s = 0;
-        ml = 0;
-        h = 0;
-        m = 0;
-        numberResult = 1;
-        outResult.innerHTML = '';
-        update();
-    }
+  tab_3: '<div class="tab" data-tabs="3">По своей сути рыбатекст является альтернативой традиционному lorem ipsum, который вызывает у некторых людей недоумение при попытках прочитать рыбу текст.</div> '
 };
 
-var watch = new Timer;
-
-
-//----------------------------------------------------------------------------------------------------------
-var switchColor = {
-    colorChoose: function(color){
-        document.body.style.background = color;
-    },
-    
-    button_1: document.getElementById('color1').addEventListener('click', function(){
-        switchColor.colorChoose('silver');
-    }),
-    
-    button_2: document.getElementById('color2').addEventListener('click', function(){
-        switchColor.colorChoose('bisque');
-    }),
-    
-    button_3: document.getElementById('color3').addEventListener('click', function(){
-        switchColor.colorChoose('black');
-    }),
-    
-    button_4: document.getElementById('color4').addEventListener('click', function(){
-        switchColor.colorChoose('azure');
-    })
+var tubsButton = {
+  Btab_1: '<div class="button buttonTVisit" data-tabs="1">tab_1</div>',
+  Btab_2: '<div class="button" data-tabs="2">tab_2</div>',
+  Btab_3: '<div class="button" data-tabs="3">tab_3</div>'
 }
+function tubs(objT, objTB){
+  $('body').append('<div class="tabMenu"></div>');
+  $('<div class="tabB"></div>').appendTo('.tabMenu');
+  $('.tabMenu').append('<div class="infoTab"></div>');
+  function makeTubs(){
+    for(var key in objT){
+      $(objT[key]).appendTo('.infoTab');
+    }
+  }
+
+  function makeTubsButton(){
+    for(var key in objTB){
+      $(objTB[key]).appendTo('.tabB');
+    }
+  }
+  makeTubsButton();
+  makeTubs();
+}
+tubs(tabsText, tubsButton);
 
 
 
-start_stop.addEventListener('click', watch.start);
-reset.addEventListener('click', watch.reset);
-split.addEventListener('click', watch.split);
- 
+///////////////////////////////////////////////////////
+var $button = $('.button');
+var $tab = $('.tab');
+$button.on('click', function(e){
+  var active = false;
+  var button = $(this);
+  for(var i = 0; i <= $tab.length; i++){
+    if(button.data().tabs == $($tab[i]).data().tabs){
+      if(!active){
+        $($tab).hide();
+        $('.button').removeClass('buttonTVisit');
+
+      }
+        button.toggleClass('buttonTVisit');
+        $($tab[i]).show();
+        break
+  }
+}
+})
+}());
